@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zakeer Shaik — Software Engineer</title>
+<style>
+  :root{
+    --bg:#0a0a0a; --panel:#0d0d0d; --border:#222; --border2:#333;
+    --text:#f0f0f0; --muted:#8a8a8a; --dim:#555; --bright:#fff;
+    --mono:"SF Mono",Menlo,Consolas,"Courier New",monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--mono);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;font-size:15px}
+  ::selection{background:#f0f0f0;color:#0a0a0a}
+  a{color:inherit}
+
+  body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(#ffffff05 1px,transparent 1px),linear-gradient(90deg,#ffffff05 1px,transparent 1px);background-size:44px 44px;z-index:0;pointer-events:none;mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 72%)}
+
+  .wrap{max-width:820px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+  /* status bar */
+  .statusbar{position:sticky;top:0;background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:20;font-size:.78rem}
+  .statusbar .wrap{display:flex;justify-content:space-between;align-items:center;padding:9px 24px}
+  .statusbar .left{display:flex;align-items:center;gap:8px;color:var(--muted)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--bright);animation:pulse 2s infinite;flex-shrink:0}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,255,255,.5)}50%{opacity:.5;box-shadow:0 0 0 5px rgba(255,255,255,0)}}
+  .statusbar .right .clk{color:var(--muted)}
+  .statusbar .right{color:var(--dim)}
+  @media(max-width:600px){.statusbar{font-size:.72rem}}
+
+  /* nav */
+  nav{position:sticky;top:35px;backdrop-filter:blur(10px);background:rgba(10,10,10,.75);border-bottom:1px solid var(--border);z-index:15}
+  nav .wrap{display:flex;justify-content:space-between;align-items:center;padding:13px 24px}
+  nav .logo{font-weight:700;font-size:1rem;color:var(--text);letter-spacing:1px}
+  nav .nlinks a{color:var(--muted);text-decoration:none;margin-left:20px;font-size:.8rem;transition:color .2s}
+  nav .nlinks a:hover{color:var(--text)}
+  nav .nlinks a::before{content:"./";color:var(--dim)}
+  @media(max-width:600px){nav .nlinks a{margin-left:14px;font-size:.74rem}}
+
+  /* hero */
+  header.hero{padding:70px 0 50px}
+  .line{margin-bottom:5px;color:var(--muted)}
+  .line .p{color:var(--dim)}
+  .out{color:var(--text)}
+  #boot{min-height:120px;margin-bottom:6px}
+  .cursor{display:inline-block;width:9px;height:17px;background:var(--text);vertical-align:text-bottom;margin-left:2px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .hero h1{font-size:3.2rem;line-height:1.05;margin:10px 0 10px;font-weight:800;letter-spacing:-1.5px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;opacity:0;transition:opacity .5s}
+  .hero .role{font-size:1.05rem;color:var(--muted);margin-bottom:12px;opacity:0;transition:opacity .5s}
+  .hero .role .pipe{color:var(--dim);margin:0 8px}
+  .hero p.bio{color:var(--muted);max-width:600px;font-size:.95rem;margin-bottom:12px}
+  .hero .loc{color:var(--dim);font-size:.85rem;opacity:0;transition:opacity .5s}
+  .hero .loc::before{content:"# ";color:var(--dim)}
+  .reveal-on.show{opacity:1}
+  @media(max-width:600px){.hero h1{font-size:2.2rem}}
+
+  /* sections */
+  section{padding:42px 0;border-top:1px solid var(--border)}
+  .prompt{color:var(--muted);margin-bottom:18px;font-size:.95rem}
+  .prompt .p{color:var(--dim)}
+  .prompt .typed{color:var(--text)}
+  .prompt .cur{display:inline-block;width:8px;height:15px;background:var(--text);vertical-align:text-bottom;margin-left:2px;animation:blink 1s steps(1) infinite}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+  .reveal.show{opacity:1;transform:translateY(0)}
+
+  /* skills - tag boxes */
+  .skill-row{display:grid;grid-template-columns:130px 1fr;gap:18px;padding:14px 0;border-bottom:1px dashed var(--border);align-items:start}
+  .skill-row:last-child{border-bottom:none}
+  .skill-row .key{color:var(--muted);white-space:nowrap;padding-top:4px}
+  .skill-row .val{display:flex;flex-wrap:wrap;gap:8px}
+  .skill-row .val .tk{color:var(--text);background:#161616;border:1px solid var(--border);padding:5px 11px;border-radius:5px;font-size:.78rem;white-space:nowrap;transition:border-color .2s,color .2s}
+  .skill-row .val .tk:hover{border-color:var(--border2);color:var(--bright)}
+  @media(max-width:600px){.skill-row{grid-template-columns:1fr;gap:8px}.skill-row .key{font-size:.82rem;padding-top:0}}
+
+  /* experience */
+  .job{padding:16px 0;border-bottom:1px solid var(--border)}
+  .job:last-child{border-bottom:none}
+  .job .top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:3px}
+  .job h4{font-size:1.05rem;font-weight:700;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+  .job .when{color:var(--dim);font-size:.8rem}
+  .job .co{color:var(--muted);font-size:.86rem;margin-bottom:10px}
+  .job ul{list-style:none;color:var(--muted);font-size:.88rem}
+  .job ul li{padding-left:20px;position:relative;margin-bottom:5px}
+  .job ul li::before{content:"→";position:absolute;left:0;color:var(--dim)}
+
+  /* projects */
+  .pcard{padding:20px 0;border-bottom:1px solid var(--border)}
+  .pcard:last-child{border-bottom:none}
+  .pcard .ptag{color:var(--muted);font-size:.78rem;margin-bottom:8px}
+  .pcard .ptag .b{color:var(--bright);font-weight:700}
+  .pcard h3{font-size:1.2rem;margin-bottom:8px;font-weight:700;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+  .pcard p{color:var(--muted);font-size:.88rem;margin-bottom:12px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6}
+  .pcard .stack{margin-bottom:12px;color:var(--dim);font-size:.78rem}
+  .pcard .stack .l{color:var(--muted)}
+  .pcard a.gh{color:var(--text);text-decoration:none;font-size:.83rem;border-bottom:1px solid var(--border2);padding-bottom:2px;transition:border-color .2s}
+  .pcard a.gh:hover{border-color:var(--text)}
+
+  /* about */
+  .about-block{margin-bottom:26px}
+  .about-block:last-child{margin-bottom:0}
+  .about-h{color:var(--bright);font-weight:700;margin-bottom:12px;font-size:.95rem}
+  .about-h .p{color:var(--dim);font-weight:400}
+  .edu-item{margin-bottom:11px}
+  .edu-item .d{font-weight:600;font-size:.9rem;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+  .edu-item .s{color:var(--dim);font-size:.78rem}
+  .ach{list-style:none}
+  .ach li{padding-left:0;position:relative;margin-bottom:9px;font-size:.88rem;color:var(--muted);font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+  .ach li b{color:var(--bright);font-weight:700}
+
+  /* contact */
+  .contact{padding:70px 0;text-align:center}
+  .contact .prompt{display:inline-block}
+  .contact h2{font-size:2rem;margin-bottom:12px;font-weight:700;font-family:-apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:-.5px}
+  .contact p.sub{color:var(--muted);margin-bottom:26px;font-size:.88rem}
+  .cta{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
+  .cta a{text-decoration:none;padding:11px 22px;border-radius:6px;font-size:.84rem;border:1px solid var(--border2);transition:all .2s}
+  .cta a.primary{background:var(--text);color:#0a0a0a;border-color:var(--text);font-weight:600}
+  .cta a.primary:hover{transform:translateY(-2px)}
+  .cta a.ghost:hover{border-color:var(--text);color:var(--text)}
+
+  footer{border-top:1px solid var(--border);text-align:center;padding:24px;color:var(--dim);font-size:.8rem}
+  footer a{text-decoration:none;color:var(--dim);transition:color .2s}
+  footer a:hover{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="wrap">
+    <span class="left"><span class="dot"></span>online · available for work</span>
+    <span class="right"><span class="clk" id="clock">--:--:--</span> IST</span>
+  </div>
+</div>
+
+<nav>
+  <div class="wrap">
+    <span class="logo">$_home</span>
+    <div class="nlinks">
+      <a href="#skills">skills</a>
+      <a href="#experience">experience</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div id="boot"></div>
+    <h1 class="reveal-on" id="name">Zakeer Shaik</h1>
+    <p class="role reveal-on" id="role">Software Engineer<span class="pipe">|</span>AI + Data</p>
+    <p class="bio reveal-on" id="bio">2+ years bridging scalable Azure data pipelines and intelligent agentic systems — RAG, LLM evaluation, and production-grade AI.</p>
+    <p class="loc reveal-on" id="loc">Bangalore, India</p>
+  </div>
+</header>
+
+<section id="skills">
+  <div class="wrap">
+    <p class="prompt" data-cmd="cat skills.txt"><span class="p">$ </span><span class="typed"></span><span class="cur"></span></p>
+    <div class="output reveal">
+      <div class="skill-row"><span class="key">languages</span><span class="val"><span class="tk">Python</span><span class="tk">Advanced SQL</span><span class="tk">PySpark</span><span class="tk">Pandas</span><span class="tk">NumPy</span></span></div>
+      <div class="skill-row"><span class="key">azure_cloud</span><span class="val"><span class="tk">Data Factory</span><span class="tk">Databricks</span><span class="tk">ADLS Gen2</span><span class="tk">Synapse</span><span class="tk">Azure SQL</span><span class="tk">Delta Lake</span><span class="tk">Fabric</span></span></div>
+      <div class="skill-row"><span class="key">ai_agentic</span><span class="val"><span class="tk">Agentic AI</span><span class="tk">RAG</span><span class="tk">LLM Evaluation</span><span class="tk">Prompt Engineering</span><span class="tk">MCP</span><span class="tk">RLHF</span><span class="tk">Vector DBs</span><span class="tk">LangChain</span></span></div>
+      <div class="skill-row"><span class="key">devops_tools</span><span class="val"><span class="tk">Docker</span><span class="tk">Git</span><span class="tk">CI/CD</span><span class="tk">FastAPI</span><span class="tk">Streamlit</span><span class="tk">Gradio</span><span class="tk">Azure DevOps</span><span class="tk">Jira</span></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <p class="prompt" data-cmd="ls -la experience/"><span class="p">$ </span><span class="typed"></span><span class="cur"></span></p>
+    <div class="output reveal">
+      <div class="job">
+        <div class="top"><h4>Software Engineer</h4><span class="when">Jan 2024 — Present</span></div>
+        <div class="co">VisionQuest Solutions · Client: Wipro</div>
+        <ul>
+          <li>Monitored ETL production pipelines in Azure Data Factory, maintaining ~99% successful daily load completion within SLA.</li>
+          <li>Refactored 10+ legacy SQL Server stored procedures into PySpark on Databricks, improving performance ~25–30%.</li>
+          <li>Built a Python utility to archive inactive ADLS Gen2 data to cold storage, cutting storage costs ~15–20%.</li>
+          <li>Implemented logging, alerting, and data quality validations to improve early failure detection.</li>
+        </ul>
+      </div>
+      <div class="job">
+        <div class="top"><h4>Jr. Data Scientist (Freelance)</h4><span class="when">Aug 2023 — Dec 2023</span></div>
+        <div class="co">Outlier AI · Client: Scale AI</div>
+        <ul>
+          <li>Wrote 400+ Python &amp; SQL solutions to train generative AI models with focus on correct syntax and logic.</li>
+          <li>Designed complex prompts to test model handling of database queries and edge cases.</li>
+          <li>Ran A/B comparisons of model outputs and flagged unsafe responses to reduce hallucinations.</li>
+        </ul>
+      </div>
+      <div class="job">
+        <div class="top"><h4>Data Science Intern</h4><span class="when">Feb 2023 — Aug 2023</span></div>
+        <div class="co">AIVariant</div>
+        <ul>
+          <li>Led a customer segmentation project using behavioural and demographic data.</li>
+          <li>Applied K-Means &amp; Agglomerative clustering; built a KNN classifier reaching ~85% accuracy.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <p class="prompt" data-cmd="cat projects.json"><span class="p">$ </span><span class="typed"></span><span class="cur"></span></p>
+    <div class="output reveal">
+      <div class="pcard">
+        <div class="ptag"><span class="b">★ Winner</span> · Kong API Summit 2025</div>
+        <h3>Customer Support Agent with AI Gateway</h3>
+        <p>Cost-optimised AI support system with dynamic query routing via Kong AI Gateway, real-time sentiment analysis, and automatic CRM escalation. Achieved &lt;$0.10 per query and &lt;2s response time.</p>
+        <div class="stack"><span class="l">stack:</span> FastAPI · Kong Gateway · Groq · ChromaDB · LangChain · Docker</div>
+        <a class="gh" href="https://github.com/Zakeertech3/Customer_Support_Agent_using_Kong" target="_blank">view repo →</a>
+      </div>
+      <div class="pcard">
+        <div class="ptag">Elastic Agent</div>
+        <h3>Elastic MCP PR Reviewer</h3>
+        <p>Autonomous DevSecOps agent that vectorised 5,000 historical PRs for semantic vulnerability detection, integrated GitHub via MCP, and autonomously injected secure code fixes into live Pull Requests.</p>
+        <div class="stack"><span class="l">stack:</span> Elasticsearch · SentenceTransformers · MCP · Elastic Agent Builder · Python</div>
+        <a class="gh" href="https://github.com/Zakeertech3/devsecops-test-target" target="_blank">view repo →</a>
+      </div>
+      <div class="pcard">
+        <div class="ptag">Splunk Agentic Ops</div>
+        <h3>AgentLens · LLM Agent Observability</h3>
+        <p>Open-source Python SDK that auto-instruments CrewAI &amp; LangGraph with one line of code, streaming telemetry to Splunk. Two-layer ML detection catches prompt injection and token-cost anomalies in real time.</p>
+        <div class="stack"><span class="l">stack:</span> Python SDK · OpenTelemetry · Splunk · CrewAI · LangGraph</div>
+        <a class="gh" href="https://github.com/Zakeertech3/AgentLens_Splunk_Agentic_Ops_Hackathon" target="_blank">view repo →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <p class="prompt" data-cmd="cat about.md"><span class="p">$ </span><span class="typed"></span><span class="cur"></span></p>
+    <div class="output reveal">
+      <div class="about-block">
+        <div class="about-h"><span class="p">## </span>Education</div>
+        <div class="edu-item"><div class="d">M.C.A — Computer Applications</div><div class="s">Annamacharya Institute of Tech &amp; Science · 2022</div></div>
+        <div class="edu-item"><div class="d">B.Sc — Computer Science &amp; Statistics</div><div class="s">Yogi Vemana University · 2020</div></div>
+      </div>
+      <div class="about-block">
+        <div class="about-h"><span class="p">## </span>Certifications</div>
+        <div class="edu-item"><div class="d">HackerRank — Software Engineer Certificate</div></div>
+        <div class="edu-item"><div class="d">Advanced NLP with Python for Machine Learning</div></div>
+        <div class="edu-item"><div class="d">Excelr — Data Science Certification</div></div>
+      </div>
+      <div class="about-block">
+        <div class="about-h"><span class="p">## </span>Achievements &amp; Community</div>
+        <ul class="ach">
+          <li><b>Winner</b> Best Agentic Project, Kong API Summit 2025</li>
+          <li><b>1st Place</b> Data Engineering Hackathon Leaderboard</li>
+          <li><b>Co-Organizer</b> Kong API Events, Hyderabad</li>
+          <li><b>Technical Volunteer</b> DevRel Squad Hyderabad (LangDB.AI, FireDucks, Firebolt)</li>
+          <li><b>Volunteer</b> GitTogether GitHub Copilot Event</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <p class="prompt" data-cmd="./connect.sh"><span class="p">$ </span><span class="typed"></span><span class="cur"></span></p>
+    <h2 class="reveal">Get in Touch</h2>
+    <p class="sub reveal">Open to Data Engineer &amp; AI Engineer roles.</p>
+    <div class="cta reveal">
+      <a class="primary" href="mailto:zakeershaik886@gmail.com">email</a>
+      <a class="ghost" href="tel:+918309502588">+91-8309502588</a>
+      <a class="ghost" href="https://www.linkedin.com/" target="_blank">linkedin ↗</a>
+      <a class="ghost" href="https://github.com/Zakeertech3" target="_blank">github ↗</a>
+      <a class="ghost" href="https://medium.com/@zakeer1410" target="_blank">medium ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="#top">↑ back to top</a>
+</footer>
+
+<script>
+  function tick(){
+    const now=new Date();
+    const ist=new Date(now.getTime()+(now.getTimezoneOffset()*60000)+(5.5*3600000));
+    const p=n=>String(n).padStart(2,'0');
+    document.getElementById('clock').textContent=`${p(ist.getHours())}:${p(ist.getMinutes())}:${p(ist.getSeconds())}`;
+  }
+  tick(); setInterval(tick,1000);
+
+  const bootLines=[
+    {p:'$ ',cmd:'whoami',out:'zakeer_shaik'},
+    {p:'$ ',cmd:'cat role.txt',out:'Software Engineer · AI + Data Engineering'},
+    {p:'$ ',cmd:'./init.sh',out:'loading portfolio...'}
+  ];
+  const boot=document.getElementById('boot');
+  let li=0;
+  function typeCmd(line,cb){
+    const div=document.createElement('div');div.className='line';
+    const sp=document.createElement('span');sp.className='p';sp.textContent=line.p;div.appendChild(sp);
+    const cs=document.createElement('span');div.appendChild(cs);
+    const cur=document.createElement('span');cur.className='cursor';div.appendChild(cur);
+    boot.appendChild(div);
+    let i=0;
+    const t=setInterval(()=>{
+      cs.textContent=line.cmd.slice(0,++i);
+      if(i>=line.cmd.length){clearInterval(t);cur.remove();
+        if(line.out){const o=document.createElement('div');o.className='line out';o.textContent=line.out;boot.appendChild(o);}
+        setTimeout(cb,160);}
+    },36);
+  }
+  function runBoot(){
+    if(li<bootLines.length){typeCmd(bootLines[li++],runBoot);}
+    else{['name','role','loc'].forEach((id,i)=>setTimeout(()=>document.getElementById(id).classList.add('show'),i*130));}
+  }
+  runBoot();
+
+  function typePrompt(el){
+    const cmd=el.dataset.cmd;
+    const typed=el.querySelector('.typed');
+    const cur=el.querySelector('.cur');
+    let i=0;
+    const t=setInterval(()=>{
+      typed.textContent=cmd.slice(0,++i);
+      if(i>=cmd.length){clearInterval(t);setTimeout(()=>{if(cur)cur.style.display='none';},800);}
+    },34);
+  }
+  const promptObs=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){typePrompt(e.target);promptObs.unobserve(e.target);}});
+  },{threshold:.6});
+  document.querySelectorAll('.prompt[data-cmd]').forEach(el=>promptObs.observe(el));
+
+  const obs=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('show'),300);obs.unobserve(e.target);}});
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
