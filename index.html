@@ -92,7 +92,9 @@
   .pcard .ptag{color:var(--muted);font-size:.78rem;margin-bottom:8px}
   .pcard .ptag .b{color:var(--bright);font-weight:700}
   .pcard h3{font-size:1.2rem;margin-bottom:8px;font-weight:700;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
-  .pcard p{color:var(--muted);font-size:.88rem;margin-bottom:12px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6}
+  .pcard ul{list-style:none;color:var(--muted);font-size:.88rem;margin-bottom:12px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6}
+  .pcard ul li{padding-left:18px;position:relative;margin-bottom:7px}
+  .pcard ul li::before{content:"→";position:absolute;left:0;color:var(--dim);font-family:var(--mono)}
   .pcard .stack{margin-bottom:12px;color:var(--dim);font-size:.78rem}
   .pcard .stack .l{color:var(--muted)}
   .pcard a.gh{color:var(--text);text-decoration:none;font-size:.83rem;border-bottom:1px solid var(--border2);padding-bottom:2px;transition:border-color .2s}
@@ -104,6 +106,7 @@
   .about-h{color:var(--bright);font-weight:700;margin-bottom:12px;font-size:.95rem}
   .about-h .p{color:var(--dim);font-weight:400}
   .edu-item{margin-bottom:11px}
+  .edu-item .d{font-weight:400;font-size:.9rem;color:var(--muted);font-family:-apple-system,BlinkMacSystemFont,sans-serif}
   .edu-item .s{color:#444;font-size:.78rem;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
   .cert-item{color:var(--muted);font-size:.88rem;margin-bottom:9px;font-weight:400;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
   .ach{list-style:none}
@@ -162,9 +165,10 @@
     <p class="prompt" data-cmd="cat skills.txt"><span class="p">$ </span><span class="typed"></span><span class="cur"></span></p>
     <div class="output reveal">
       <div class="skill-row"><span class="key">languages</span><span class="val"><span class="tk">Python</span><span class="tk">Advanced SQL</span><span class="tk">PySpark</span><span class="tk">Pandas</span><span class="tk">NumPy</span></span></div>
-      <div class="skill-row"><span class="key">azure_cloud</span><span class="val"><span class="tk">Data Factory</span><span class="tk">Databricks</span><span class="tk">ADLS Gen2</span><span class="tk">Synapse</span><span class="tk">Azure SQL</span><span class="tk">Delta Lake</span><span class="tk">Fabric</span></span></div>
-      <div class="skill-row"><span class="key">ai_agentic</span><span class="val"><span class="tk">Agentic AI</span><span class="tk">RAG</span><span class="tk">LLM Evaluation</span><span class="tk">Prompt Engineering</span><span class="tk">MCP</span><span class="tk">RLHF</span><span class="tk">Vector DBs</span><span class="tk">LangChain</span></span></div>
-      <div class="skill-row"><span class="key">devops_tools</span><span class="val"><span class="tk">Docker</span><span class="tk">Git</span><span class="tk">CI/CD</span><span class="tk">FastAPI</span><span class="tk">Streamlit</span><span class="tk">Gradio</span><span class="tk">Azure DevOps</span><span class="tk">Jira</span></span></div>
+      <div class="skill-row"><span class="key">databases</span><span class="val"><span class="tk">SQL Server</span><span class="tk">MySQL</span><span class="tk">Snowflake</span><span class="tk">Synapse Analytics</span></span></div>
+      <div class="skill-row"><span class="key">azure_cloud</span><span class="val"><span class="tk">Data Factory</span><span class="tk">Databricks</span><span class="tk">ADLS Gen2</span><span class="tk">Microsoft Fabric</span><span class="tk">Delta Lake</span><span class="tk">OneLake</span><span class="tk">Lakehouse</span></span></div>
+      <div class="skill-row"><span class="key">ai_agentic</span><span class="val"><span class="tk">Agentic AI</span><span class="tk">RAG</span><span class="tk">Prompt Engineering</span><span class="tk">RLHF</span><span class="tk">Vector DBs</span><span class="tk">LangChain</span><span class="tk">LangGraph</span><span class="tk">CrewAI</span><span class="tk">Voice Agents</span></span></div>
+      <div class="skill-row"><span class="key">devops_tools</span><span class="val"><span class="tk">Docker</span><span class="tk">Git</span><span class="tk">CI/CD</span><span class="tk">Flask</span><span class="tk">FastAPI</span><span class="tk">Hugging Face</span><span class="tk">Streamlit</span><span class="tk">Gradio</span><span class="tk">Azure DevOps</span><span class="tk">Jira</span></span></div>
     </div>
   </div>
 </section>
@@ -178,7 +182,8 @@
         <div class="co">VisionQuest Solutions · Client: Wipro</div>
         <ul>
           <li>Monitored ETL production pipelines in Azure Data Factory, maintaining ~99% successful daily load completion within SLA.</li>
-          <li>Refactored 10+ legacy SQL Server stored procedures into PySpark on Databricks, improving performance ~25–30%.</li>
+          <li>Refactored legacy SQL Server stored procedures into PySpark on Databricks, improving performance ~25–30%.</li>
+          <li>Built and tested new ETL pipelines in Microsoft Fabric, ingesting legacy sources into Fabric Lakehouse and OneLake.</li>
           <li>Built a Python utility to archive inactive ADLS Gen2 data to cold storage, cutting storage costs ~15–20%.</li>
           <li>Implemented logging, alerting, and data quality validations to improve early failure detection.</li>
         </ul>
@@ -209,24 +214,43 @@
     <p class="prompt" data-cmd="cat projects.json"><span class="p">$ </span><span class="typed"></span><span class="cur"></span></p>
     <div class="output reveal">
       <div class="pcard">
+        <div class="ptag">RAG &amp; Retrieval Engineering</div>
+        <h3>Event-Driven Code RAG Slack Agent</h3>
+        <ul>
+          <li>Built a code-aware RAG agent answering natural-language questions about a GitHub repo in Slack via hybrid retrieval — dense Qdrant + TF-IDF BM25 fused with RRF, then reranked — returning file/line citations.</li>
+          <li>A GitHub webhook (HMAC-SHA256 verified) auto-rebuilds the vector index on every push so answers always reflect current code; measured hit rate 1.00 and MRR 0.955.</li>
+        </ul>
+        <div class="stack"><span class="l">stack:</span> Python · Qdrant · Jina embeddings · tree-sitter · scikit-learn · Slack Bolt · Flask · Groq · Docker</div>
+        <a class="gh" href="REPLACE_CODERAG_REPO_URL" target="_blank">view repo →</a>
+      </div>
+      <div class="pcard">
         <div class="ptag"><span class="b">★ Winner</span> · Kong API Summit 2025</div>
         <h3>Customer Support Agent with AI Gateway</h3>
-        <p>Cost-optimised AI support system with dynamic query routing via Kong AI Gateway, real-time sentiment analysis, and automatic CRM escalation. Achieved &lt;$0.10 per query and &lt;2s response time.</p>
-        <div class="stack"><span class="l">stack:</span> FastAPI · Kong Gateway · Groq · ChromaDB · LangChain · Docker</div>
+        <ul>
+          <li>Architected a cost-optimised AI support system with dynamic query routing via Kong AI Gateway — simple queries to Llama-3.3-70b, complex ones to GPT-OSS-120b.</li>
+          <li>Added real-time sentiment-based CRM escalation, hitting &lt;$0.10 per query and &lt;2s response time.</li>
+        </ul>
+        <div class="stack"><span class="l">stack:</span> Python · FastAPI · Streamlit · Kong Gateway · Groq · ChromaDB · LangChain · Docker</div>
         <a class="gh" href="https://github.com/Zakeertech3/Customer_Support_Agent_using_Kong" target="_blank">view repo →</a>
       </div>
       <div class="pcard">
-        <div class="ptag">Elastic Agent</div>
+        <div class="ptag">Agentic DevSecOps Auditor</div>
         <h3>Elastic MCP PR Reviewer</h3>
-        <p>Autonomous DevSecOps agent that vectorised 5,000 historical PRs for semantic vulnerability detection, integrated GitHub via MCP, and autonomously injected secure code fixes into live Pull Requests.</p>
-        <div class="stack"><span class="l">stack:</span> Elasticsearch · SentenceTransformers · MCP · Elastic Agent Builder · Python</div>
+        <ul>
+          <li>Built an autonomous agent that vectorised 5,000 historical PRs for kNN semantic search to detect recurring security vulnerabilities in live PRs.</li>
+          <li>Used a GitHub MCP server to read live PR diffs and inject secure code fixes directly into Pull Requests without human intervention.</li>
+        </ul>
+        <div class="stack"><span class="l">stack:</span> Python · Elasticsearch · SentenceTransformers · Elastic Agent Builder · MCP · Node.js · GitHub API</div>
         <a class="gh" href="https://github.com/Zakeertech3/devsecops-test-target" target="_blank">view repo →</a>
       </div>
       <div class="pcard">
-        <div class="ptag">Splunk Agentic Ops</div>
-        <h3>AgentLens · LLM Agent Observability</h3>
-        <p>Open-source Python SDK that auto-instruments CrewAI &amp; LangGraph with one line of code, streaming telemetry to Splunk. Two-layer ML detection catches prompt injection and token-cost anomalies in real time.</p>
-        <div class="stack"><span class="l">stack:</span> Python SDK · OpenTelemetry · Splunk · CrewAI · LangGraph</div>
+        <div class="ptag">LLM Agent Observability SDK</div>
+        <h3>AgentLens</h3>
+        <ul>
+          <li>Built an open-source SDK that auto-instruments CrewAI and LangGraph agents with one line of code, streaming OpenTelemetry spans to Splunk.</li>
+          <li>Added two-layer prompt-injection and token-anomaly detection using classical ML, running entirely on-prem with no external LLM calls.</li>
+        </ul>
+        <div class="stack"><span class="l">stack:</span> Python · OpenTelemetry · OpenInference · Splunk AI Toolkit · CrewAI · LangGraph · Groq</div>
         <a class="gh" href="https://github.com/Zakeertech3/AgentLens_Splunk_Agentic_Ops_Hackathon" target="_blank">view repo →</a>
       </div>
     </div>
@@ -270,7 +294,7 @@
     <div class="cta reveal">
       <a class="primary" href="mailto:zakeershaik886@gmail.com">email</a>
       <a class="ghost" href="tel:+918309502588">+91-8309502588</a>
-      <a class="ghost" href="https://www.linkedin.com/" target="_blank">linkedin ↗</a>
+      <a class="ghost" href="https://www.linkedin.com/in/mohammed-zakeer/" target="_blank">linkedin ↗</a>
       <a class="ghost" href="https://github.com/Zakeertech3" target="_blank">github ↗</a>
       <a class="ghost" href="https://medium.com/@zakeer1410" target="_blank">medium ↗</a>
     </div>
